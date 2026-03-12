@@ -218,15 +218,13 @@ ENDSSH
                             apk add --no-cache curl
                         fi
 
-                        echo "=== Checking App on http://${DEPLOY_SERVER}:${APP_PORT}/ ==="
+                        echo "=== Checking App on http://${DEPLOY_SERVER}:${APP_PORT}/ping ==="
                         
                         # Giving the Spring Boot app time to initialize and connect to DB
                         sleep 30
                         
-                        # [CHANGE: We use the root path since actuator is returning 404]
                         # -f ensures the pipeline fails if the response is 4xx or 5xx
-                        curl -f http://${DEPLOY_SERVER}:${APP_PORT}/ || exit 1
-                        # [END CHANGE]
+                        curl -f http://${DEPLOY_SERVER}:${APP_PORT}/ping || exit 1
                         
                         echo "✅ Application is healthy!"
                         echo "🌐 Live at: http://${DEPLOY_SERVER}:${APP_PORT}"
